@@ -1,19 +1,19 @@
-const time = document.querySelector('.time');
-const pageDate = document.querySelector('.date');
+import {showTime} from "./time.js";
+import {showGreeting} from "./greeting.js";
+import name from "./greeting.js";
 
-function showTime() {
-  const date = new Date();
-  const currentTime = date.toLocaleTimeString();
-  time.textContent = currentTime;
-  showDate();
-  setTimeout(showTime, 1000);
+function setLocalStorage() {
+  localStorage.setItem('name', name.value);
 }
 
-function showDate() {
-  const date = new Date();
-  const options = {month: 'long', day: 'numeric', weekday: 'long', timeZone: 'Europe/Moscow'};
-  const currentDate = date.toLocaleDateString('en-Br', options);
-  pageDate.textContent = currentDate;
+function getLocalStorage() {
+  if(localStorage.getItem('name')) {
+    name.value = localStorage.getItem('name');
+  }
 }
+window.addEventListener('beforeunload', setLocalStorage);
+window.addEventListener('load', getLocalStorage);
+name.addEventListener('change', setLocalStorage);
 
+showGreeting();
 showTime();
